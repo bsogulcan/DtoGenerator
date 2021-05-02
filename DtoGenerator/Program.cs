@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Net;
 using DtoGenerator.Enums;
 using DtoGenerator.Helpers;
 using DtoGenerator.Models;
@@ -47,29 +46,25 @@ namespace DtoGenerator
             var propertyLines = FileHelpers.GetPropertyLinesFromFile(filePath);
 
             if (File.ReadAllText(filePath).Contains("AuditedEntity"))
-            {
                 propertyComponents.Add(new PropertyComponent
                 {
                     Name = "Id",
                     PropertyType = PropertyType.Number
                 });
-            }
+
 
             foreach (var propertyLine in propertyLines)
             {
                 PropertyComponent propertyComponent = PropertyHelpers.GetComponentsFromLine(propertyLine);
                 if (propertyComponent != null)
                 {
-                    Console.WriteLine(propertyComponent.Name + " - " +
-                                      propertyComponent.PropertyType + " - " +
-                                      propertyComponent.IsArray + " - " +
-                                      propertyComponent.ArrayType + " - ");
                     propertyComponents.Add(propertyComponent);
                 }
             }
-            
-            string outPutString = Builder.BuildDtoTemplate(fileName, propertyComponents);
-            FileHelpers.WriteDtoFile(Path.Combine(endPoint, fileName + ".ts"), outPutString);
+
+            Writer.WriteAllDtos(endPoint, fileName, propertyComponents);
+
+            Console.WriteLine("Completed");
         }
     }
 }
