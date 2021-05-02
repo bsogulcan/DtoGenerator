@@ -1,4 +1,5 @@
-﻿using DtoGenerator.Enums;
+﻿#nullable enable
+using DtoGenerator.Enums;
 using DtoGenerator.Models;
 
 namespace DtoGenerator.Helpers
@@ -9,8 +10,9 @@ namespace DtoGenerator.Helpers
         {
             if (IsRowVersion(line))
                 return null;
-            
-            PropertyComponent propertyComponent = new PropertyComponent();
+
+            PropertyComponent propertyComponent = new PropertyComponent {IsArray = IsArray(line)};
+
             string[] components = line.Trim().Split(" ");
             foreach (string component in components)
             {
@@ -27,6 +29,11 @@ namespace DtoGenerator.Helpers
                 }
                 else
                 {
+                    if (IsArray(component))
+                    {
+                        propertyComponent.ArrayType = GetArrayTypeFromLine(component);
+                    }
+
                     propertyComponent.Name = component;
                 }
             }
@@ -35,12 +42,25 @@ namespace DtoGenerator.Helpers
         }
 
 
+        private static string GetArrayTypeFromLine(string line)
+        {
+            int startIndex = line.IndexOf("<") + 1;
+            int endIndex = line.IndexOf(">") - startIndex;
+            var arrayType = line.Substring(startIndex, endIndex);
+            return arrayType;
+        }
+
         private static bool IsGetOrSet(string component)
         {
             return component.ToLower() == "{" ||
                    component.ToLower() == "get;" ||
                    component.ToLower() == "set;" ||
                    component.ToLower() == "}";
+        }
+
+        private static bool IsArray(string line)
+        {
+            return line.ToLower().Contains("icollection") || line.ToLower().Contains("list");
         }
 
         private static bool IsRowVersion(string line)

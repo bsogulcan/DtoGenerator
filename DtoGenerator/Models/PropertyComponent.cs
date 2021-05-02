@@ -1,4 +1,4 @@
-﻿using System;
+﻿#nullable enable
 using DtoGenerator.Enums;
 
 namespace DtoGenerator.Models
@@ -7,5 +7,7 @@ namespace DtoGenerator.Models
     {
         public string Name { get; set; }
         public PropertyType PropertyType { get; set; }
+        public bool IsArray { get; set; }
+        public string? ArrayType { get; set; }
     }
 }
