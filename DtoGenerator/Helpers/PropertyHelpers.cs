@@ -34,11 +34,19 @@ namespace DtoGenerator.Helpers
                         propertyComponent.ArrayType = GetArrayTypeFromLine(component);
                     }
 
-                    propertyComponent.Name = component;
+                    propertyComponent.Name = FirstCharToLowerCase(component);
                 }
             }
 
             return propertyComponent;
+        }
+
+        public static string FirstCharToLowerCase(string propertyName)
+        {
+            if (string.IsNullOrEmpty(propertyName) || char.IsLower(propertyName[0]))
+                return propertyName;
+
+            return char.ToLower(propertyName[0]) + propertyName.Substring(1);
         }
 
 
