@@ -13,7 +13,7 @@ namespace DtoGenerator.Helpers
             stringBuilder.AppendLine("export class " + dtoName + " {");
             foreach (PropertyComponent propertyComponent in propertyComponents)
             {
-                stringBuilder.Append("    " + propertyComponent.Name + ": ");
+                stringBuilder.Append("    " +PropertyHelpers.FirstCharToLowerCase(propertyComponent.Name) + ": ");
 
                 if (propertyComponent.IsArray)
                 {

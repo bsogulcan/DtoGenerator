@@ -20,11 +20,13 @@ namespace DtoGenerator
             if (fileInfo.Extension != ".cs")
             {
                 Console.WriteLine("Selected file is not an Entity");
+                return;
             }
 
             if (!fileInfo.Exists)
             {
                 Console.WriteLine("File not found");
+                return;
             }
 
             Console.WriteLine("Enter endpoint:");
@@ -33,7 +35,11 @@ namespace DtoGenerator
             DirectoryInfo directoryInfo = new DirectoryInfo(endPoint);
             if (!directoryInfo.Exists)
             {
+                Console.WriteLine("Selected file is not an Entity");
+                return;
             }
+
+            string fileName = fileInfo.Name.Substring(0, fileInfo.Name.IndexOf(".", StringComparison.Ordinal));
 
 
             List<PropertyComponent> propertyComponents = new List<PropertyComponent>();
@@ -61,10 +67,9 @@ namespace DtoGenerator
                     propertyComponents.Add(propertyComponent);
                 }
             }
-
-
-            string outPutString = Builder.BuildDtoTemplate("Test", propertyComponents);
-            FileHelpers.WriteDtoFile(endPoint + "Test.ts", outPutString);
+            
+            string outPutString = Builder.BuildDtoTemplate(fileName, propertyComponents);
+            FileHelpers.WriteDtoFile(Path.Combine(endPoint, fileName + ".ts"), outPutString);
         }
     }
 }

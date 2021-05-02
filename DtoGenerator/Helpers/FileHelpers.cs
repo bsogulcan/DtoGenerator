@@ -20,10 +20,6 @@ namespace DtoGenerator.Helpers
 
         public static void WriteDtoFile(string filePath,string outputString)
         {
-            
-            
-            
-            
             FileStream fileStream = File.Create(filePath);
             StreamWriter streamWriter = new StreamWriter(fileStream);
             streamWriter.Write(outputString);

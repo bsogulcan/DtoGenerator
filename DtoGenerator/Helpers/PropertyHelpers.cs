@@ -34,7 +34,7 @@ namespace DtoGenerator.Helpers
                         propertyComponent.ArrayType = GetArrayTypeFromLine(component);
                     }
 
-                    propertyComponent.Name = FirstCharToLowerCase(component);
+                    propertyComponent.Name = component;
                 }
             }
 
