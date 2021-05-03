@@ -3,10 +3,12 @@
     <PropertyGroup>
         <OutputType>Exe</OutputType>
         <TargetFramework>net5.0</TargetFramework>
+        <AssemblyName>Generator</AssemblyName>
+        <RootNamespace>Generator</RootNamespace>
     </PropertyGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\Dto\Dto.csproj" />
+      <ProjectReference Include="..\Dtos\Dtos.csproj" />
     </ItemGroup>
 
 </Project>

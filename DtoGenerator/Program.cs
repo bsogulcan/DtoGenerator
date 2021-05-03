@@ -89,7 +89,7 @@ namespace DtoGenerator
                                       "" + Environment.NewLine +
                                       "-o || --outputPath : The directory to save the dto files. " +
                                       "" + Environment.NewLine +
-                                      "-p || --path <Optional> : It will create all Entities Dto from current folder." +
+                                      "-p || --path <Optional> : It will create all Entities Dtos from current folder." +
                                       "" + Environment.NewLine + "-f || --file <Optional> : Specific file name." +
                                       "" + Environment.NewLine + "fulloutput <Optional> : It will create FullOutPut." +
                                       "" + Environment.NewLine + "partoutput <Optional> : It will create PartOutPut." +

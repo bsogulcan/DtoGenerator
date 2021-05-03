@@ -1,8 +1,8 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DtoGenerator", "DtoGenerator\DtoGenerator.csproj", "{CE7C3E6A-ACB9-4485-84B3-173CB9936949}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Generator", "DtoGenerator\Generator.csproj", "{CE7C3E6A-ACB9-4485-84B3-173CB9936949}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dto", "Dto\Dto.csproj", "{53B559B3-2CF6-4236-B6D0-C077D897A45D}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dtos", "Dtos\Dtos.csproj", "{53B559B3-2CF6-4236-B6D0-C077D897A45D}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Environments", "Environments\Environments.csproj", "{AE0D9923-E60E-4AFB-9159-15E9907401BB}"
 EndProject
