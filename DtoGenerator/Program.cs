@@ -99,14 +99,14 @@ namespace DtoGenerator
                     );
                     return false;
                 }
-                
+
                 if (!args.Contains("-o") && !args.Contains("--outputPath"))
                 {
                     Console.WriteLine("Output path is invalid! -h for helps.");
                     return false;
                 }
-                
-                
+
+
                 if (args[i].ToLower() == "-p" || args[i].ToLower() == "--path")
                 {
                     if (args[i + 1] != null)
@@ -221,26 +221,46 @@ namespace DtoGenerator
             if (BuildAll)
             {
                 Writer.WriteAllDtos(combinedDirectoryPath, dtoName, propertyComponents);
+                Console.WriteLine("Generated " + dtoName + " Dtos.");
                 return;
             }
 
             if (BuildFullOutput)
+            {
                 Writer.WriteFullOutput(combinedDirectoryPath, dtoName, propertyComponents);
+                Console.WriteLine("Generated '" + dtoName + "FullOutPut.'");
+            }
+
 
             if (BuildPartOutput)
+            {
                 Writer.WritePartOutput(combinedDirectoryPath, dtoName, propertyComponents);
+                Console.WriteLine("Generated '" + dtoName + "PartOutPut.'");
+            }
 
             if (BuildCreateInput)
+            {
                 Writer.WriteCreateInput(combinedDirectoryPath, dtoName, propertyComponents);
+                Console.WriteLine("Generated 'Create" + dtoName + "Input.'");
+            }
 
             if (BuildUpdateInput)
+            {
                 Writer.WriteUpdateInput(combinedDirectoryPath, dtoName, propertyComponents);
+                Console.WriteLine("Generated 'Update" + dtoName + "Input.'");
+            }
 
             if (BuildGetInput)
+            {
                 Writer.WriteGetInput(combinedDirectoryPath, dtoName, propertyComponents);
+                Console.WriteLine("Generated 'Get" + dtoName + "Input.'");
+            }
 
             if (BuildDeleteInput)
+            {
                 Writer.WriteDeleteInput(combinedDirectoryPath, dtoName, propertyComponents);
+                Console.WriteLine("Generated 'Delete" + dtoName + "Input.'");
+            }
         }
     }
 }
