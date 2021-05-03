@@ -36,6 +36,12 @@ namespace DtoGenerator
                 InputDirectory = Console.ReadLine();
             }
 
+            if (OutputDirectory == string.Empty)
+            {
+                Console.WriteLine("Enter endpoint:");
+                OutputDirectory = Console.ReadLine();
+            }
+
             FileAttributes fileAttributes = File.GetAttributes(InputDirectory);
 
             if (fileAttributes.HasFlag(FileAttributes.Directory))
@@ -43,66 +49,22 @@ namespace DtoGenerator
                 if (FileName == string.Empty)
                 {
                     string[] files = Directory.GetFiles(InputDirectory);
-                    foreach (string filePath in files)
+                    foreach (string filePath in files.Where(x => x.Contains(".cs")).ToList())
                     {
-                        
+                        FileName = FileHelpers.GetFileName(filePath);
+
+                        List<PropertyComponent> propertyComponent = CreatePropertyComponents(filePath);
+                        WriteDtoFiles(OutputDirectory, FileName, propertyComponent);
                     }
-                    
                 }
             }
-
-
-            FileInfo fileInfo = new FileInfo(InputDirectory);
-
-            if (fileInfo.Extension != ".cs")
+            else
             {
-                Console.WriteLine("Selected file is not an Entity");
-                return;
+                if (FileName == string.Empty)
+                    FileName = FileHelpers.GetFileName(InputDirectory);
+
+                List<PropertyComponent> propertyComponent = CreatePropertyComponents(InputDirectory);
             }
-
-            if (!fileInfo.Exists)
-            {
-                Console.WriteLine("File not found");
-                return;
-            }
-
-            Console.WriteLine("Enter endpoint:");
-            string endPoint = Console.ReadLine();
-
-            DirectoryInfo directoryInfo = new DirectoryInfo(endPoint);
-            if (!directoryInfo.Exists)
-            {
-                Console.WriteLine("Selected file is not an Entity");
-                return;
-            }
-
-            string fileName = fileInfo.Name.Substring(0, fileInfo.Name.IndexOf(".", StringComparison.Ordinal));
-
-
-            List<PropertyComponent> propertyComponents = new List<PropertyComponent>();
-
-            var propertyLines = FileHelpers.GetPropertyLinesFromFile(InputDirectory);
-
-            if (File.ReadAllText(InputDirectory).Contains("AuditedEntity"))
-                propertyComponents.Add(new PropertyComponent
-                {
-                    Name = "Id",
-                    PropertyType = PropertyType.Number
-                });
-
-
-            foreach (var propertyLine in propertyLines)
-            {
-                PropertyComponent propertyComponent = PropertyHelpers.GetComponentsFromLine(propertyLine);
-                if (propertyComponent != null)
-                {
-                    propertyComponents.Add(propertyComponent);
-                }
-            }
-
-            Writer.WriteAllDtos(endPoint, fileName, propertyComponents);
-
-            Console.WriteLine("Completed");
         }
 
 
@@ -212,6 +174,40 @@ namespace DtoGenerator
             }
 
             return true;
+        }
+
+        static List<PropertyComponent> CreatePropertyComponents(string filePath)
+        {
+            List<PropertyComponent> propertyComponents = new List<PropertyComponent>();
+            var propertyLines = FileHelpers.GetPropertyLinesFromFile(filePath);
+
+            if (File.ReadAllText(filePath).Contains("AuditedEntity"))
+                propertyComponents.Add(new PropertyComponent
+                {
+                    Name = "Id",
+                    PropertyType = PropertyType.Number
+                });
+
+            foreach (var propertyLine in propertyLines)
+            {
+                PropertyComponent propertyComponent = PropertyHelpers.GetComponentsFromLine(propertyLine);
+                if (propertyComponent != null)
+                    propertyComponents.Add(propertyComponent);
+            }
+
+            // Writer.WriteAllDtos(OutputDirectory, FileName, propertyComponents);
+            return propertyComponents;
+        }
+
+        static void WriteDtoFiles(string directory, string dtoName, List<PropertyComponent> propertyComponents)
+        {
+            if (BuildAll)
+            {
+                Writer.WriteAllDtos(directory, dtoName, propertyComponents);
+                return;
+            }
+            
+            
         }
     }
 }

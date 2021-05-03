@@ -18,12 +18,18 @@ namespace DtoGenerator.Helpers
                             !a.Contains("()"));
         }
 
-        public static void WriteDtoFile(string filePath,string outputString)
+        public static void WriteDtoFile(string filePath, string outputString)
         {
             FileStream fileStream = File.Create(filePath);
             StreamWriter streamWriter = new StreamWriter(fileStream);
             streamWriter.Write(outputString);
             streamWriter.Close();
+        }
+
+        public static string GetFileName(string filePath)
+        {
+            FileInfo fileInfo = new FileInfo(filePath);
+            return fileInfo.Name.Substring(0, fileInfo.Name.IndexOf(".", StringComparison.Ordinal));
         }
     }
 }
