@@ -1,8 +1,11 @@
 # DtoGenerator
 DtoGenerator converting  entities to TypeScript classes and create **FullOutput**, **PartOutput**, **CreateInput**, **UpdateInput**, **GetInput**, **DeleteInput** files.
 
+# Installing
+npm i -g entitytotsgenerator
+
 # Usage
-cmd => DtoGenerator -p "../Core/Entities/" -o "Desktop/GeneratedDtos"
+cmd => GenerateDto -p "../Core/Entities/" -o "Desktop/GeneratedDtos"
 
 # Commands
 1. -o || --outputPath : The directory to save the dto files.
