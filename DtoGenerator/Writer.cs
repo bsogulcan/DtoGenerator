@@ -1,9 +1,10 @@
-﻿using System.Collections.Generic;
+﻿
+using System.Collections.Generic;
 using System.IO;
 using Business.Helpers;
 using Environments.Models;
 
-namespace DtoGenerator.Helpers
+namespace DtoGenerator
 {
     public static class Writer
     {

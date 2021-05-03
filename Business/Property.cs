@@ -1,4 +1,6 @@
-﻿using Environments.Models;
+﻿using System.Collections.Generic;
+using System.IO;
+using Environments.Models;
 using Environments.Enums;
 using Business.Helpers;
 
@@ -39,6 +41,28 @@ namespace Business
             }
 
             return propertyComponent;
+        }
+        public static List<PropertyComponent> CreatePropertyComponents(string filePath)
+        {
+            List<PropertyComponent> propertyComponents = new List<PropertyComponent>();
+            var propertyLines = FileHelpers.GetPropertyLinesFromFile(filePath);
+
+            if (File.ReadAllText(filePath).Contains("AuditedEntity"))
+                propertyComponents.Add(new PropertyComponent
+                {
+                    Name = "Id",
+                    PropertyType = PropertyType.Number
+                });
+
+            foreach (var propertyLine in propertyLines)
+            {
+                PropertyComponent propertyComponent = Property.GetComponentsFromLine(propertyLine);
+                if (propertyComponent != null)
+                    propertyComponents.Add(propertyComponent);
+            }
+
+            // Writer.WriteAllDtos(OutputDirectory, FileName, propertyComponents);
+            return propertyComponents;
         }
 
     }
