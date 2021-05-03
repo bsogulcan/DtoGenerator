@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using DtoGenerator.Enums;
@@ -22,6 +23,24 @@ namespace DtoGenerator.Helpers
                         ? "FullOutput"
                         : "PartOutput";
 
+                    if (propertyComponent.PropertyType == PropertyType.FullOutput)
+                    {
+                        stringBuilder.Insert(0,
+                            "import { " + propertyComponent.ArrayType + "FullOutput" +
+                            " } from '../../../services/" +
+                            PropertyHelpers.FirstCharToLowerCase(propertyComponent.ArrayType) + "/dtos/" +
+                            propertyComponent.ArrayType + "FullOutput'" + Environment.NewLine);
+                    }
+                    else if (propertyComponent.PropertyType == PropertyType.PartOutput)
+                    {
+                        stringBuilder.Insert(0,
+                            "import { " + propertyComponent.ArrayType + "PartOutput" +
+                            " } from '../../../services/" +
+                            PropertyHelpers.FirstCharToLowerCase(propertyComponent.ArrayType) + "/dtos/" +
+                            propertyComponent.ArrayType + "PartOutput'" + Environment.NewLine);
+                    }
+
+
                     stringBuilder.AppendLine("Array<" + propertyComponent.ArrayType + outputType + ">;");
                 }
                 else
@@ -39,9 +58,19 @@ namespace DtoGenerator.Helpers
                             break;
                         case PropertyType.FullOutput:
                             stringBuilder.AppendLine(propertyComponent.Name + "FullOutput;");
+                            stringBuilder.Insert(0,
+                                "import { " + propertyComponent.Name + "FullOutput" +
+                                " } from '../../../services/" +
+                                PropertyHelpers.FirstCharToLowerCase(propertyComponent.Name) + "/dtos/" +
+                                propertyComponent.Name + "FullOutput'" + Environment.NewLine);
                             break;
                         case PropertyType.PartOutput:
                             stringBuilder.AppendLine(propertyComponent.Name + "PartOutput;");
+                            stringBuilder.Insert(0,
+                                "import { " + propertyComponent.Name + "PartOutput" +
+                                " } from '../../../services/" +
+                                PropertyHelpers.FirstCharToLowerCase(propertyComponent.Name) + "/dtos/" +
+                                propertyComponent.Name + "PartOutput';" + Environment.NewLine);
                             break;
                         case PropertyType.Any:
                             stringBuilder.AppendLine("any;");

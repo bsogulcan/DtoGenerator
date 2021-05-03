@@ -11,7 +11,7 @@ namespace DtoGenerator
     class Program
     {
         private static string CurrentDirectory = Environment.CurrentDirectory;
-        private static string InputDirectory = string.Empty;
+        private static string InputDirectory = CurrentDirectory;
         private static string OutputDirectory = string.Empty;
         private static string FileName = string.Empty;
 
@@ -57,6 +57,14 @@ namespace DtoGenerator
                         WriteDtoFiles(OutputDirectory, FileName, propertyComponent);
                     }
                 }
+                else
+                {
+                    List<PropertyComponent> propertyComponent =
+                        CreatePropertyComponents(Path.Combine(InputDirectory, FileName));
+
+                    FileName = FileHelpers.GetFileName(Path.Combine(InputDirectory, FileName));
+                    WriteDtoFiles(OutputDirectory, FileName, propertyComponent);
+                }
             }
             else
             {
@@ -70,16 +78,10 @@ namespace DtoGenerator
 
         static bool ArgsChecker(string[] args)
         {
-            if (!args.Contains("-o") && !args.Contains("--outputPath"))
-            {
-                Console.WriteLine("Output path is invalid! -h for helps.");
-                return false;
-            }
-
-
             for (int i = 0; i < args.Length; i++)
             {
                 if (args[i] == "-h")
+                {
                     Console.WriteLine("--Help Page--" +
                                       "" + Environment.NewLine +
                                       "-o || --outputPath : The directory to save the dto files. " +
@@ -95,7 +97,16 @@ namespace DtoGenerator
                                       "" + Environment.NewLine + "getinput <Optional> : It will create GetInput." +
                                       "" + Environment.NewLine + "deleteinput <Optional> : It will create DeleteInput."
                     );
-
+                    return false;
+                }
+                
+                if (!args.Contains("-o") && !args.Contains("--outputPath"))
+                {
+                    Console.WriteLine("Output path is invalid! -h for helps.");
+                    return false;
+                }
+                
+                
                 if (args[i].ToLower() == "-p" || args[i].ToLower() == "--path")
                 {
                     if (args[i + 1] != null)
@@ -201,13 +212,35 @@ namespace DtoGenerator
 
         static void WriteDtoFiles(string directory, string dtoName, List<PropertyComponent> propertyComponents)
         {
+            string combinedDirectoryPath = Path.Combine(directory, dtoName);
+            if (!Directory.Exists(combinedDirectoryPath))
+            {
+                Directory.CreateDirectory(combinedDirectoryPath);
+            }
+
             if (BuildAll)
             {
-                Writer.WriteAllDtos(directory, dtoName, propertyComponents);
+                Writer.WriteAllDtos(combinedDirectoryPath, dtoName, propertyComponents);
                 return;
             }
-            
-            
+
+            if (BuildFullOutput)
+                Writer.WriteFullOutput(combinedDirectoryPath, dtoName, propertyComponents);
+
+            if (BuildPartOutput)
+                Writer.WritePartOutput(combinedDirectoryPath, dtoName, propertyComponents);
+
+            if (BuildCreateInput)
+                Writer.WriteCreateInput(combinedDirectoryPath, dtoName, propertyComponents);
+
+            if (BuildUpdateInput)
+                Writer.WriteUpdateInput(combinedDirectoryPath, dtoName, propertyComponents);
+
+            if (BuildGetInput)
+                Writer.WriteGetInput(combinedDirectoryPath, dtoName, propertyComponents);
+
+            if (BuildDeleteInput)
+                Writer.WriteDeleteInput(combinedDirectoryPath, dtoName, propertyComponents);
         }
     }
 }
