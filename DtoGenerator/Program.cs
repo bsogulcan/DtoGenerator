@@ -2,9 +2,11 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using DtoGenerator.Enums;
+using Business;
+using Business.Helpers;
 using DtoGenerator.Helpers;
-using DtoGenerator.Models;
+using Environments.Enums;
+using Environments.Models;
 
 namespace DtoGenerator
 {
@@ -72,6 +74,7 @@ namespace DtoGenerator
                     FileName = FileHelpers.GetFileName(InputDirectory);
 
                 List<PropertyComponent> propertyComponent = CreatePropertyComponents(InputDirectory);
+                WriteDtoFiles(OutputDirectory, FileName, propertyComponent);
             }
         }
 
@@ -201,7 +204,7 @@ namespace DtoGenerator
 
             foreach (var propertyLine in propertyLines)
             {
-                PropertyComponent propertyComponent = PropertyHelpers.GetComponentsFromLine(propertyLine);
+                PropertyComponent propertyComponent = Property.GetComponentsFromLine(propertyLine);
                 if (propertyComponent != null)
                     propertyComponents.Add(propertyComponent);
             }

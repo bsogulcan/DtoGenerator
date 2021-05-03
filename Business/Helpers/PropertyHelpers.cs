@@ -1,46 +1,9 @@
-﻿#nullable enable
-using DtoGenerator.Enums;
-using DtoGenerator.Models;
+﻿using Environments.Enums;
 
-namespace DtoGenerator.Helpers
+namespace Business.Helpers
 {
     public static class PropertyHelpers
     {
-        public static PropertyComponent? GetComponentsFromLine(string line)
-        {
-            if (IsRowVersion(line))
-                return null;
-
-            PropertyComponent propertyComponent = new PropertyComponent {IsArray = IsArray(line)};
-
-            string[] components = line.Trim().Split(" ");
-            foreach (string component in components)
-            {
-                if (IsAccessModifiers(component) || IsGetOrSet(component))
-                    continue;
-
-                if (IsPropertyType(component))
-                {
-                    propertyComponent.PropertyType = GetPropertyTypeFromComponent(component);
-                }
-                else if (IsVirtual(component))
-                {
-                    propertyComponent.PropertyType = PropertyType.PartOutput;
-                }
-                else
-                {
-                    if (IsArray(component))
-                    {
-                        propertyComponent.ArrayType = GetArrayTypeFromLine(component);
-                    }
-
-                    propertyComponent.Name = component;
-                }
-            }
-
-            return propertyComponent;
-        }
-
         public static string FirstCharToLowerCase(string propertyName)
         {
             if (string.IsNullOrEmpty(propertyName) || char.IsLower(propertyName[0]))
@@ -49,8 +12,7 @@ namespace DtoGenerator.Helpers
             return char.ToLower(propertyName[0]) + propertyName.Substring(1);
         }
 
-
-        private static string GetArrayTypeFromLine(string line)
+        public static string GetArrayTypeFromLine(string line)
         {
             int startIndex = line.IndexOf("<") + 1;
             int endIndex = line.IndexOf(">") - startIndex;
@@ -58,7 +20,7 @@ namespace DtoGenerator.Helpers
             return arrayType;
         }
 
-        private static bool IsGetOrSet(string component)
+        public static bool IsGetOrSet(string component)
         {
             return component.ToLower() == "{" ||
                    component.ToLower() == "get;" ||
@@ -66,29 +28,29 @@ namespace DtoGenerator.Helpers
                    component.ToLower() == "}";
         }
 
-        private static bool IsArray(string line)
+        public static bool IsArray(string line)
         {
             return line.ToLower().Contains("icollection") || line.ToLower().Contains("list");
         }
 
-        private static bool IsRowVersion(string line)
+        public static bool IsRowVersion(string line)
         {
             return line.ToLower().Contains("rowversion");
         }
 
-        private static bool IsAccessModifiers(string component)
+        public static bool IsAccessModifiers(string component)
         {
             return component.ToLower() == "public" ||
                    component.ToLower() == "private" ||
                    component.ToLower() == "protected";
         }
 
-        private static bool IsVirtual(string component)
+        public static bool IsVirtual(string component)
         {
             return component.ToLower().Contains("virtual");
         }
 
-        private static bool IsPropertyType(string component)
+        public static bool IsPropertyType(string component)
         {
             if (component.ToLower() == "string" ||
                 component.ToLower() == "int" ||
@@ -104,7 +66,7 @@ namespace DtoGenerator.Helpers
             return false;
         }
 
-        private static PropertyType GetPropertyTypeFromComponent(string component)
+        public static PropertyType GetPropertyTypeFromComponent(string component)
         {
             switch (component.ToLower())
             {

@@ -2,12 +2,12 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using DtoGenerator.Enums;
-using DtoGenerator.Models;
-
-namespace DtoGenerator.Helpers
+using Environments.Enums;
+using Environments.Models;
+using Business.Helpers;
+namespace Dto
 {
-    public static class Builder
+    public static class TypeScriptDtoBuilder
     {
         public static string BuildDtoTemplate(string dtoName, List<PropertyComponent> propertyComponents)
         {

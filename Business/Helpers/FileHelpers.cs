@@ -2,10 +2,8 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using DtoGenerator.Enums;
-using DtoGenerator.Models;
 
-namespace DtoGenerator.Helpers
+namespace Business.Helpers
 {
     public static class FileHelpers
     {

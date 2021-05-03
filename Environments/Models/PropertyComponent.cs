@@ -1,7 +1,7 @@
 ﻿#nullable enable
-using DtoGenerator.Enums;
+using Environments.Enums;
 
-namespace DtoGenerator.Models
+namespace Environments.Models
 {
     public class PropertyComponent
     {
@@ -9,5 +9,4 @@ namespace DtoGenerator.Models
         public PropertyType PropertyType { get; set; }
         public bool IsArray { get; set; }
         public string? ArrayType { get; set; }
-    }
-}
+    }}

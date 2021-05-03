@@ -1,4 +1,4 @@
-﻿namespace DtoGenerator.Enums
+﻿namespace Environments.Enums
 {
     public enum PropertyType
     {
