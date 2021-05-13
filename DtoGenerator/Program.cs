@@ -3,6 +3,7 @@ using System.Linq;
 using DtoGenerator;
 using Environments.Enums;
 using Environments.Models;
+using Generator.Repository;
 
 namespace Generator
 {
@@ -52,6 +53,10 @@ namespace Generator
             {
                 DtoBuilder.DtoBuild(setting);
             }
+            else if (_processType == ProcessType.Repository)
+            {
+                RepositoryBuilder.Build(setting);
+            }
         }
 
         static bool ArgsChecker(string[] args)
@@ -78,9 +83,9 @@ namespace Generator
                     return false;
                 }
 
-                if (!args.Contains("dto"))
+                if (!args.Contains("dto") && !args.Contains("repository"))
                 {
-                    Console.WriteLine("You must select generation type. etc:dto,appservices");
+                    Console.WriteLine("You must select generation type. etc:dto,repository");
                     return false;
                 }
 
@@ -98,6 +103,11 @@ namespace Generator
 
                 if (args.Contains("cs"))
                     _frameworkType = FrameworkType.Cs;
+
+                if (args.Contains("repository"))
+                {
+                    _processType = ProcessType.Repository;
+                }
 
                 if (!args.Contains("-o") && !args.Contains("--outputPath"))
                 {

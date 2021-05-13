@@ -6,6 +6,7 @@
         Permission = 1,
         Map = 2,
         AppService = 3,
-        Component = 4
+        Component = 4,
+        Repository=5
     }
 }
