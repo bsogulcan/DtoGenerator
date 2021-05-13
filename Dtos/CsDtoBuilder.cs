@@ -54,22 +54,22 @@ namespace Dto
             BuildUpdateInput(dtoName, propertyComponents);
             BuildGetInput(dtoName, propertyComponents);
             BuildDeleteInput(dtoName, propertyComponents);
-            BuildFullOutput(dtoName, propertyComponents);
-            BuildPartOutput(dtoName, propertyComponents);
+            BuildDto(dtoName, propertyComponents);
+            // BuildPartOutput(dtoName, propertyComponents);
         }
 
-        public static string BuildFullOutput(string dtoName, List<PropertyComponent> propertyComponents)
+        public static string BuildDto(string dtoName, List<PropertyComponent> propertyComponents)
         {
             return BuildDtoTemplate(dtoName, dtoName + "Dto", propertyComponents);
         }
 
-        public static string BuildPartOutput(string dtoName, List<PropertyComponent> propertyComponents)
-        {
-            return BuildDtoTemplate(dtoName, dtoName + "PartOutput",
-                propertyComponents.Where(x =>
-                    x.PropertyType != PropertyType.FullOutput &&
-                    x.PropertyType != PropertyType.PartOutput).ToList());
-        }
+        // public static string BuildPartOutput(string dtoName, List<PropertyComponent> propertyComponents)
+        // {
+        //     return BuildDtoTemplate(dtoName, dtoName + "PartOutput",
+        //         propertyComponents.Where(x =>
+        //             x.PropertyType != PropertyType.FullOutput &&
+        //             x.PropertyType != PropertyType.PartOutput).ToList());
+        // }
 
         public static string BuildCreateInput(string dtoName, List<PropertyComponent> propertyComponents)
         {

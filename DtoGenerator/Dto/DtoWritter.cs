@@ -25,15 +25,15 @@ namespace DtoGenerator.Writter
 
             if (setting.BuildFullOutput)
             {
-                Writer.WriteFullOutput(setting,combinedDirectoryPath, dtoName, propertyComponents);
+                Writer.WriteDto(setting,combinedDirectoryPath, dtoName, propertyComponents);
                 Console.WriteLine("Generated '" + dtoName + "FullOutPut.'");
             }
             
-            if (setting.BuildPartOutput)
-            {
-                Writer.WritePartOutput(setting,combinedDirectoryPath, dtoName, propertyComponents);
-                Console.WriteLine("Generated '" + dtoName + "PartOutPut.'");
-            }
+            // if (setting.BuildPartOutput)
+            // {
+            //     Writer.WritePartOutput(setting,combinedDirectoryPath, dtoName, propertyComponents);
+            //     Console.WriteLine("Generated '" + dtoName + "PartOutPut.'");
+            // }
 
             if (setting.BuildCreateInput)
             {

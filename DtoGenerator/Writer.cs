@@ -13,12 +13,8 @@ namespace DtoGenerator
         {
             if (setting.FrameworkType == FrameworkType.Ts)
             {
-                FileHelpers.WriteDtoFile(Path.Combine(directory, dtoName + "FullOutput.ts"),
-                    Dto.TypeScriptDtoBuilder.BuildFullOutput(dtoName, propertyComponents)
-                );
-
-                FileHelpers.WriteDtoFile(Path.Combine(directory, dtoName + "PartOutput.ts"),
-                    Dto.TypeScriptDtoBuilder.BuildFullOutput(dtoName, propertyComponents));
+                FileHelpers.WriteDtoFile(Path.Combine(directory, dtoName + "Dto.ts"),
+                    Dto.TypeScriptDtoBuilder.BuildDto(dtoName, propertyComponents));
 
                 FileHelpers.WriteDtoFile(Path.Combine(directory, "Create" + dtoName + "Input.ts"),
                     Dto.TypeScriptDtoBuilder.BuildCreateInput(dtoName, propertyComponents));
@@ -35,8 +31,7 @@ namespace DtoGenerator
             else
             {
                 FileHelpers.WriteDtoFile(Path.Combine(directory, dtoName + "Dto.cs"),
-                    Dto.CsDtoBuilder.BuildFullOutput(dtoName, propertyComponents)
-                );
+                    Dto.CsDtoBuilder.BuildDto(dtoName, propertyComponents));
 
                 FileHelpers.WriteDtoFile(Path.Combine(directory, "Create" + dtoName + "Input.cs"),
                     Dto.CsDtoBuilder.BuildCreateInput(dtoName, propertyComponents));
@@ -52,27 +47,27 @@ namespace DtoGenerator
             }
         }
 
-        public static void WriteFullOutput(Setting setting, string directory, string dtoName,
+        public static void WriteDto(Setting setting, string directory, string dtoName,
             List<PropertyComponent> propertyComponents)
         {
             if (setting.FrameworkType == FrameworkType.Ts)
-                FileHelpers.WriteDtoFile(Path.Combine(directory, dtoName + "FullOutput.ts"),
-                    Dto.TypeScriptDtoBuilder.BuildFullOutput(dtoName, propertyComponents));
+                FileHelpers.WriteDtoFile(Path.Combine(directory, dtoName + "Dto.ts"),
+                    Dto.TypeScriptDtoBuilder.BuildDto(dtoName, propertyComponents));
             else
-                FileHelpers.WriteDtoFile(Path.Combine(directory, dtoName + "FullOutput.ts"),
-                    Dto.CsDtoBuilder.BuildFullOutput(dtoName, propertyComponents));
+                FileHelpers.WriteDtoFile(Path.Combine(directory, dtoName + "Dto.ts"),
+                    Dto.CsDtoBuilder.BuildDto(dtoName, propertyComponents));
         }
 
-        public static void WritePartOutput(Setting setting, string directory, string dtoName,
-            List<PropertyComponent> propertyComponents)
-        {
-            if (setting.FrameworkType == FrameworkType.Ts)
-                FileHelpers.WriteDtoFile(Path.Combine(directory, dtoName + "PartOutput.ts"),
-                    Dto.TypeScriptDtoBuilder.BuildPartOutput(dtoName, propertyComponents));
-            else
-                FileHelpers.WriteDtoFile(Path.Combine(directory, dtoName + "FullOutput.ts"),
-                    Dto.CsDtoBuilder.BuildPartOutput(dtoName, propertyComponents));
-        }
+        // public static void WritePartOutput(Setting setting, string directory, string dtoName,
+        //     List<PropertyComponent> propertyComponents)
+        // {
+        //     if (setting.FrameworkType == FrameworkType.Ts)
+        //         FileHelpers.WriteDtoFile(Path.Combine(directory, dtoName + "PartOutput.ts"),
+        //             Dto.TypeScriptDtoBuilder.BuildDto(dtoName, propertyComponents));
+        //     else
+        //         FileHelpers.WriteDtoFile(Path.Combine(directory, dtoName + "Dto.ts"),
+        //             Dto.CsDtoBuilder.BuildPartOutput(dtoName, propertyComponents));
+        // }
 
         public static void WriteCreateInput(Setting setting, string directory, string dtoName,
             List<PropertyComponent> propertyComponents)
@@ -81,7 +76,7 @@ namespace DtoGenerator
                 FileHelpers.WriteDtoFile(Path.Combine(directory, dtoName + "PartOutput.ts"),
                     Dto.TypeScriptDtoBuilder.BuildCreateInput(dtoName, propertyComponents));
             else
-                FileHelpers.WriteDtoFile(Path.Combine(directory, dtoName + "FullOutput.ts"),
+                FileHelpers.WriteDtoFile(Path.Combine(directory, dtoName + "Dto.ts"),
                     Dto.CsDtoBuilder.BuildCreateInput(dtoName, propertyComponents));
         }
 

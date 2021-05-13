@@ -20,25 +20,23 @@ namespace Dto
 
                 if (propertyComponent.IsArray)
                 {
-                    string outputType = propertyComponent.PropertyType == PropertyType.FullOutput
-                        ? "FullOutput"
-                        : "PartOutput";
+                    string outputType = "Dto";
 
                     if (propertyComponent.PropertyType == PropertyType.FullOutput)
                     {
                         stringBuilder.Insert(0,
-                            "import { " + propertyComponent.ArrayType + "FullOutput" +
+                            "import { " + propertyComponent.ArrayType + "Dto" +
                             " } from '../../../services/" +
                             PropertyHelpers.FirstCharToLowerCase(propertyComponent.ArrayType) + "/dtos/" +
-                            propertyComponent.ArrayType + "FullOutput'" + Environment.NewLine);
+                            propertyComponent.ArrayType + "Dto'" + Environment.NewLine);
                     }
                     else if (propertyComponent.PropertyType == PropertyType.PartOutput)
                     {
                         stringBuilder.Insert(0,
-                            "import { " + propertyComponent.ArrayType + "PartOutput" +
+                            "import { " + propertyComponent.ArrayType + "Dto" +
                             " } from '../../../services/" +
                             PropertyHelpers.FirstCharToLowerCase(propertyComponent.ArrayType) + "/dtos/" +
-                            propertyComponent.ArrayType + "PartOutput'" + Environment.NewLine);
+                            propertyComponent.ArrayType + "Dto'" + Environment.NewLine);
                     }
 
 
@@ -58,20 +56,20 @@ namespace Dto
                             stringBuilder.AppendLine("Date;");
                             break;
                         case PropertyType.FullOutput:
-                            stringBuilder.AppendLine(propertyComponent.Name + "FullOutput;");
+                            stringBuilder.AppendLine(propertyComponent.Name + "Dto;");
                             stringBuilder.Insert(0,
-                                "import { " + propertyComponent.Name + "FullOutput" +
+                                "import { " + propertyComponent.Name + "Dto" +
                                 " } from '../../../services/" +
                                 PropertyHelpers.FirstCharToLowerCase(propertyComponent.Name) + "/dtos/" +
-                                propertyComponent.Name + "FullOutput'" + Environment.NewLine);
+                                propertyComponent.Name + "Dto'" + Environment.NewLine);
                             break;
                         case PropertyType.PartOutput:
-                            stringBuilder.AppendLine(propertyComponent.Name + "PartOutput;");
+                            stringBuilder.AppendLine(propertyComponent.Name + "Dto;");
                             stringBuilder.Insert(0,
-                                "import { " + propertyComponent.Name + "PartOutput" +
+                                "import { " + propertyComponent.Name + "Dto" +
                                 " } from '../../../services/" +
                                 PropertyHelpers.FirstCharToLowerCase(propertyComponent.Name) + "/dtos/" +
-                                propertyComponent.Name + "PartOutput';" + Environment.NewLine);
+                                propertyComponent.Name + "Dto';" + Environment.NewLine);
                             break;
                         case PropertyType.Any:
                             stringBuilder.AppendLine("any;");
@@ -90,22 +88,22 @@ namespace Dto
             BuildUpdateInput(dtoName, propertyComponents);
             BuildGetInput(dtoName, propertyComponents);
             BuildDeleteInput(dtoName, propertyComponents);
-            BuildFullOutput(dtoName, propertyComponents);
-            BuildPartOutput(dtoName, propertyComponents);
+            BuildDto(dtoName, propertyComponents);
+            // BuildPartOutput(dtoName, propertyComponents);
         }
 
-        public static string BuildFullOutput(string dtoName, List<PropertyComponent> propertyComponents)
+        public static string BuildDto(string dtoName, List<PropertyComponent> propertyComponents)
         {
-            return BuildDtoTemplate(dtoName + "FullOutput", propertyComponents);
+            return BuildDtoTemplate(dtoName + "Dto", propertyComponents);
         }
 
-        public static string BuildPartOutput(string dtoName, List<PropertyComponent> propertyComponents)
-        {
-            return BuildDtoTemplate(dtoName + "PartOutput",
-                propertyComponents.Where(x =>
-                    x.PropertyType != PropertyType.FullOutput &&
-                    x.PropertyType != PropertyType.PartOutput).ToList());
-        }
+        // public static string BuildPartOutput(string dtoName, List<PropertyComponent> propertyComponents)
+        // {
+        //     return BuildDtoTemplate(dtoName + "PartOutput",
+        //         propertyComponents.Where(x =>
+        //             x.PropertyType != PropertyType.FullOutput &&
+        //             x.PropertyType != PropertyType.PartOutput).ToList());
+        // }
 
         public static string BuildCreateInput(string dtoName, List<PropertyComponent> propertyComponents)
         {
