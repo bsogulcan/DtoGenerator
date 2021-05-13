@@ -5,11 +5,11 @@ using Business;
 using Business.Helpers;
 using Environments.Models;
 
-namespace DtoGenerator.DtoTs
+namespace DtoGenerator
 {
-    public class TsDtoBuilder
+    public class DtoBuilder
     {
-        public void TsDtoBuild(Setting setting)
+        public static void DtoBuild(Setting setting)
         {
             FileAttributes fileAttributes = File.GetAttributes(setting.InputDirectory);
 
@@ -22,8 +22,10 @@ namespace DtoGenerator.DtoTs
                     {
                         setting.FileName = FileHelpers.GetFileName(filePath);
 
-                        List<PropertyComponent> propertyComponent = Business.Property.CreatePropertyComponents(filePath);
-                        Writer.WriteAllDtos(setting.OutputDirectory, setting.FileName, propertyComponent);
+                        List<PropertyComponent> propertyComponent =
+                            Business.Property.CreatePropertyComponents(filePath);
+                        Writter.DtoWritter.WriteDtoFiles(setting, setting.OutputDirectory, setting.FileName,
+                            propertyComponent);
                     }
                 }
                 else
@@ -32,7 +34,8 @@ namespace DtoGenerator.DtoTs
                         Property.CreatePropertyComponents(Path.Combine(setting.InputDirectory, setting.FileName));
 
                     setting.FileName = FileHelpers.GetFileName(Path.Combine(setting.InputDirectory, setting.FileName));
-                    Writer.WriteAllDtos(setting.OutputDirectory, setting.FileName, propertyComponent);
+                    Writter.DtoWritter.WriteDtoFiles(setting, setting.OutputDirectory, setting.FileName,
+                        propertyComponent);
                 }
             }
             else
@@ -40,8 +43,8 @@ namespace DtoGenerator.DtoTs
                 if (setting.FileName == string.Empty)
                     setting.FileName = FileHelpers.GetFileName(setting.InputDirectory);
 
-                List<PropertyComponent> propertyComponent =Property.CreatePropertyComponents(setting.InputDirectory);
-                Writer.WriteAllDtos(setting.OutputDirectory, setting.FileName, propertyComponent);
+                List<PropertyComponent> propertyComponent = Property.CreatePropertyComponents(setting.InputDirectory);
+                Writter.DtoWritter.WriteDtoFiles(setting, setting.OutputDirectory, setting.FileName, propertyComponent);
             }
         }
     }

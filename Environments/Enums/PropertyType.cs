@@ -7,6 +7,8 @@
         Date = 2,
         FullOutput = 3,
         PartOutput = 4,
-        Any = 5
+        Any = 5,
+        Long = 6,
+        
     }
 }

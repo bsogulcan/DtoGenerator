@@ -10,8 +10,7 @@ namespace Business.Helpers
         public static IEnumerable<string> GetPropertyLinesFromFile(string filePath)
         {
             return File.ReadAllLines(filePath)
-                .Where(a => (a.Contains("public")) &&
-                            !a.Contains("_") &&
+                .Where(a => (a.Contains("public")||a.Contains("namespace")) &&
                             !a.Contains("class") &&
                             !a.Contains("()"));
         }

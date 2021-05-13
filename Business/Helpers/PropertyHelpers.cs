@@ -45,6 +45,13 @@ namespace Business.Helpers
                    component.ToLower() == "protected";
         }
 
+
+        public static bool IsNameSpace(string component)
+        {
+            return component.ToLower().Contains("namespace");
+        }
+
+
         public static bool IsVirtual(string component)
         {
             return component.ToLower().Contains("virtual");

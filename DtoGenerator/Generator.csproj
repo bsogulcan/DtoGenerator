@@ -11,8 +11,4 @@
       <ProjectReference Include="..\Dtos\Dtos.csproj" />
     </ItemGroup>
 
-    <ItemGroup>
-      <Folder Include="Dto\Cs" />
-    </ItemGroup>
-
 </Project>

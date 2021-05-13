@@ -1,29 +1,28 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.IO;
 using System.Linq;
+using DtoGenerator;
 using Environments.Enums;
 using Environments.Models;
 
-namespace DtoGenerator
+namespace Generator
 {
-    class Program
+    static class Program
     {
-        private static string CurrentDirectory = Environment.CurrentDirectory;
-        private static string InputDirectory = CurrentDirectory;
-        private static string OutputDirectory = string.Empty;
-        private static string FileName = string.Empty;
+        private static readonly string _currentDirectory = Environment.CurrentDirectory;
+        private static string _inputDirectory = _currentDirectory;
+        private static string _outputDirectory = string.Empty;
+        private static string _fileName = string.Empty;
 
-        private static bool BuildAll = true;
-        private static bool BuildFullOutput = false;
-        private static bool BuildPartOutput = false;
-        private static bool BuildCreateInput = false;
-        private static bool BuildUpdateInput = false;
-        private static bool BuildGetInput = false;
-        private static bool BuildDeleteInput = false;
+        private static bool _buildAll = true;
+        private static bool _buildFullOutput;
+        private static bool _buildPartOutput;
+        private static bool _buildCreateInput;
+        private static bool _buildUpdateInput;
+        private static bool _buildGetInput;
+        private static bool _buildDeleteInput;
 
-        private static ProcessType ProcessType;
-        private static FrameworkType FrameworkType;
+        private static ProcessType _processType;
+        private static FrameworkType _frameworkType;
 
 
         static void Main(string[] args)
@@ -33,19 +32,27 @@ namespace DtoGenerator
                 return;
             }
 
-            if (InputDirectory == string.Empty)
+            if (_inputDirectory == string.Empty)
             {
                 Console.WriteLine("Enter the file path:");
-                InputDirectory = Console.ReadLine();
+                _inputDirectory = Console.ReadLine();
             }
 
-            if (OutputDirectory == string.Empty)
+            if (_outputDirectory == string.Empty)
             {
                 Console.WriteLine("Enter endpoint:");
-                OutputDirectory = Console.ReadLine();
+                _outputDirectory = Console.ReadLine();
+            }
+
+            Setting setting = new Setting(_processType, _frameworkType, _inputDirectory, _outputDirectory,
+                _fileName, _buildAll, _buildFullOutput, _buildPartOutput, _buildCreateInput, _buildUpdateInput,
+                _buildGetInput, _buildDeleteInput);
+
+            if (_processType == ProcessType.Dto)
+            {
+                DtoBuilder.DtoBuild(setting);
             }
         }
-
 
         static bool ArgsChecker(string[] args)
         {
@@ -84,13 +91,13 @@ namespace DtoGenerator
                 }
 
                 if (args.Contains("dto"))
-                    ProcessType = ProcessType.Dto;
+                    _processType = ProcessType.Dto;
 
                 if (args.Contains("ts"))
-                    FrameworkType = FrameworkType.Ts;
+                    _frameworkType = FrameworkType.Ts;
 
                 if (args.Contains("cs"))
-                    FrameworkType = FrameworkType.Cs;
+                    _frameworkType = FrameworkType.Cs;
 
                 if (!args.Contains("-o") && !args.Contains("--outputPath"))
                 {
@@ -102,7 +109,7 @@ namespace DtoGenerator
                 {
                     if (args[i + 1] != null)
                     {
-                        InputDirectory = args[i + 1];
+                        _inputDirectory = args[i + 1];
                     }
                     else
                     {
@@ -115,7 +122,7 @@ namespace DtoGenerator
                 {
                     if (args[i + 1] != null)
                     {
-                        OutputDirectory = args[i + 1];
+                        _outputDirectory = args[i + 1];
                     }
                     else
                     {
@@ -128,7 +135,7 @@ namespace DtoGenerator
                 {
                     if (args[i + 1] != null)
                     {
-                        FileName = args[i + 1];
+                        _fileName = args[i + 1];
                     }
                     else
                     {
@@ -140,95 +147,41 @@ namespace DtoGenerator
                 if (args.Contains("fulloutput") || args.Contains("partoutput") || args.Contains("createinput") ||
                     args.Contains("deleteinput") || args.Contains("getinput") || args.Contains("updateinput"))
                 {
-                    BuildAll = false;
+                    _buildAll = false;
                 }
 
                 if (args[i].ToLower() == "fulloutput")
                 {
-                    BuildFullOutput = true;
+                    _buildFullOutput = true;
                 }
 
                 if (args[i].ToLower() == "partoutput")
                 {
-                    BuildPartOutput = true;
+                    _buildPartOutput = true;
                 }
 
                 if (args[i].ToLower() == "createinput")
                 {
-                    BuildCreateInput = true;
+                    _buildCreateInput = true;
                 }
 
                 if (args[i].ToLower() == "deleteinput")
                 {
-                    BuildDeleteInput = true;
+                    _buildDeleteInput = true;
                 }
 
                 if (args[i].ToLower() == "getinput")
                 {
-                    BuildGetInput = true;
+                    _buildGetInput = true;
                 }
 
                 if (args[i].ToLower() == "updateinput")
                 {
-                    BuildUpdateInput = true;
+                    _buildUpdateInput = true;
                 }
             }
 
             return true;
-        }
-
-
-        static void WriteDtoFiles(string directory, string dtoName, List<PropertyComponent> propertyComponents)
-        {
-            string combinedDirectoryPath = Path.Combine(directory, dtoName);
-            if (!Directory.Exists(combinedDirectoryPath))
-            {
-                Directory.CreateDirectory(combinedDirectoryPath);
-            }
-
-            if (BuildAll)
-            {
-                Writer.WriteAllDtos(combinedDirectoryPath, dtoName, propertyComponents);
-                Console.WriteLine("Generated " + dtoName + " Dtos.");
-                return;
-            }
-
-            if (BuildFullOutput)
-            {
-                Writer.WriteFullOutput(combinedDirectoryPath, dtoName, propertyComponents);
-                Console.WriteLine("Generated '" + dtoName + "FullOutPut.'");
-            }
-
-
-            if (BuildPartOutput)
-            {
-                Writer.WritePartOutput(combinedDirectoryPath, dtoName, propertyComponents);
-                Console.WriteLine("Generated '" + dtoName + "PartOutPut.'");
-            }
-
-            if (BuildCreateInput)
-            {
-                Writer.WriteCreateInput(combinedDirectoryPath, dtoName, propertyComponents);
-                Console.WriteLine("Generated 'Create" + dtoName + "Input.'");
-            }
-
-            if (BuildUpdateInput)
-            {
-                Writer.WriteUpdateInput(combinedDirectoryPath, dtoName, propertyComponents);
-                Console.WriteLine("Generated 'Update" + dtoName + "Input.'");
-            }
-
-            if (BuildGetInput)
-            {
-                Writer.WriteGetInput(combinedDirectoryPath, dtoName, propertyComponents);
-                Console.WriteLine("Generated 'Get" + dtoName + "Input.'");
-            }
-
-            if (BuildDeleteInput)
-            {
-                Writer.WriteDeleteInput(combinedDirectoryPath, dtoName, propertyComponents);
-                Console.WriteLine("Generated 'Delete" + dtoName + "Input.'");
-            }
         }
     }
 }

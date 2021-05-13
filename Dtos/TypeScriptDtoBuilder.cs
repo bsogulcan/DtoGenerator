@@ -14,7 +14,7 @@ namespace Dto
         {
             StringBuilder stringBuilder = new StringBuilder();
             stringBuilder.AppendLine("export class " + dtoName + " {");
-            foreach (PropertyComponent propertyComponent in propertyComponents)
+            foreach (PropertyComponent propertyComponent in propertyComponents.Where(x=>!x.IsNamespace))
             {
                 stringBuilder.Append("    " + PropertyHelpers.FirstCharToLowerCase(propertyComponent.Name) + ": ");
 
